@@ -9,9 +9,9 @@ namespace yo
     public class DialogueData : ScriptableObject
     {
         [Header("對話者名稱")]
-        public string DialogueName;
+        public string dialogueName;
         [Header("對話者內容"), TextArea(2,10)]
-        public string[] DialogueContents;
+        public string[] dialogueContents;
     }
 }
 
