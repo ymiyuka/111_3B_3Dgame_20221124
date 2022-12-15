@@ -14,8 +14,11 @@ namespace yo
         private float dialogueIntervalTime = 0.1f;
         [SerializeField, Header("開頭對話")]
         private DialogueData dialogueOpening;
+        [SerializeField, Header("對話按下按鍵")]
+        private KeyCode dialogueKey = KeyCode.Mouse0;
 
         private WaitForSeconds dialogueInterval => new WaitForSeconds(dialogueIntervalTime);
+
         private CanvasGroup groupDialogue;
         private TextMeshProUGUI textName;
         private TextMeshProUGUI textContent;
@@ -46,6 +49,10 @@ namespace yo
                 yield return new WaitForSeconds(0.1f);
             }
         }
+
+        /// <summary>
+        /// 打字效果
+        /// </summary>
         private IEnumerator TypeEffect()
         {
             textName.text = dialogueOpening.dialogueName;
@@ -60,6 +67,15 @@ namespace yo
             }
 
             goTriangle.SetActive(true);
+
+            // 如果 玩家 沒有按下對話按鍵 就 等待
+            // 沒有 = !
+            while (!Input.GetKeyDown(dialogueKey))
+            {
+                yield return null;
+            }
+
+            print("<color=#ee3322>玩家按下對話按鍵!</color>");
         }
     }
 }

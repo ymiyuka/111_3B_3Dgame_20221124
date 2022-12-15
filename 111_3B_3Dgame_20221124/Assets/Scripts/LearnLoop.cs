@@ -20,6 +20,19 @@ namespace yo
             {
                 print("迴圈" + number);
             }
+
+            if (true)
+            {
+                print("當 () 內的布林值為 true 時執行");
+            }
+
+            int count = 0;
+            while (count < 5)
+            {
+                print("當 () 內的布林值為 true 時持續執行");
+                print("while 迴圈次數 :" + count);
+                count++;
+            }
         }
     }
 }

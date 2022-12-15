@@ -1648,8 +1648,8 @@ MonoBehaviour:
   m_text: 'Dialogue content. Dialogue content. Dialogue content. Dialogue content.
     Dialogue content. Dialogue content. Dialogue content. Dialogue content. '
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 7b83eb9f7a6d3d943b7bac8865e3c5e7, type: 2}
+  m_sharedMaterial: {fileID: 4308259656941428006, guid: 7b83eb9f7a6d3d943b7bac8865e3c5e7, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -2757,8 +2757,8 @@ MonoBehaviour:
       m_Calls: []
   m_text: Dialoguer
   m_isRightToLeft: 0
-  m_fontAsset: {fileID: 11400000, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
-  m_sharedMaterial: {fileID: 2180264, guid: 8f586378b4e144a9851e7b34d9b748ee, type: 2}
+  m_fontAsset: {fileID: 11400000, guid: 7b83eb9f7a6d3d943b7bac8865e3c5e7, type: 2}
+  m_sharedMaterial: {fileID: 4308259656941428006, guid: 7b83eb9f7a6d3d943b7bac8865e3c5e7, type: 2}
   m_fontSharedMaterials: []
   m_fontMaterial: {fileID: 0}
   m_fontMaterials: []
@@ -5805,6 +5805,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   dialogueIntervalTime: 0.1
   dialogueOpening: {fileID: 11400000, guid: 1f5737df3a8336f4f8e229d8cec49568, type: 2}
+  dialogueKey: 323
 --- !u!225 &2085002448
 CanvasGroup:
   m_ObjectHideFlags: 0
