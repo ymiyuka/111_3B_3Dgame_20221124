@@ -1,8 +1,9 @@
 ﻿using UnityEngine;
 using TMPro;
 using System.Collections;
+using UnityEngine.InputSystem;
 
-namespace yo 
+namespace yo
 {
     /// <summary>
     /// 對話系統
@@ -22,9 +23,10 @@ namespace yo
         private CanvasGroup groupDialogue;
         private TextMeshProUGUI textName;
         private TextMeshProUGUI textContent;
-        private GameObject goTriangle; 
+        private GameObject goTriangle;
         #endregion
 
+        private PlayerInput playerInput;    //玩家輸入元件
         #region 事件
         private void Awake()
         {
@@ -34,18 +36,34 @@ namespace yo
             goTriangle = GameObject.Find("對話完成圖示");
             goTriangle.SetActive(false);
 
-            StartCoroutine(FadeGroup());
-            StartCoroutine(TypeEffect());
-            #endregion
+            playerInput = GameObject.Find("PlayerCapsule").GetComponent<PlayerInput>();
+            StartDialogue(dialogueOpening);
         }
+        #endregion
+
+        public void StartDialogue(DialogueData data)
+        {
+            playerInput.enabled = false;    //關閉 玩家輸入元件
+
+            StartCoroutine(FadeGroup());
+            StartCoroutine(TypeEffect(data));
+        }
+
         /// <summary>
         /// 淡入淡出群組物件
         /// </summary>
-        private IEnumerator FadeGroup()
+        private IEnumerator FadeGroup(bool fadeIn = true)
         {
+            // 三元運算子 ? :
+            // 語法 :
+            // 布林值 ? 布林值為true : 布林值為false
+            // true ? 1 : 10 結果為 1
+            // false ? 1 : 10 結果為 10
+            float increase = fadeIn ? +0.1f : -0.1f;
+
             for (int i = 0; i < 10; i++)
             {
-                groupDialogue.alpha += 0.1f;
+                groupDialogue.alpha += increase;
                 yield return new WaitForSeconds(0.1f);
             }
         }
@@ -53,29 +71,37 @@ namespace yo
         /// <summary>
         /// 打字效果
         /// </summary>
-        private IEnumerator TypeEffect()
+        private IEnumerator TypeEffect(DialogueData data)
         {
-            textName.text = dialogueOpening.dialogueName;
-            textContent.text = "";
+            textName.text = data.dialogueName;
 
-            string dialogue = dialogueOpening.dialogueContents[1];
-
-            for (int i = 0; i < dialogue.Length; i++)
+            for (int j = 0; j < data.dialogueContents.Length; j++)
             {
-                textContent.text += dialogue[i];
-                yield return dialogueInterval;
+                textContent.text = "";
+                goTriangle.SetActive(false);
+
+                string dialogue = data.dialogueContents[j];
+
+                for (int i = 0; i < dialogue.Length; i++)
+                {
+                    textContent.text += dialogue[i];
+                    yield return dialogueInterval;
+                }
+
+                goTriangle.SetActive(true);
+
+                // 如果 玩家 沒有按下對話按鍵 就 等待
+                // 沒有 = !
+                while (!Input.GetKeyDown(dialogueKey))
+                {
+                    yield return null;
+                }
+
+                print("<color=#ee3322>玩家按下對話按鍵!</color>");
             }
 
-            goTriangle.SetActive(true);
-
-            // 如果 玩家 沒有按下對話按鍵 就 等待
-            // 沒有 = !
-            while (!Input.GetKeyDown(dialogueKey))
-            {
-                yield return null;
-            }
-
-            print("<color=#ee3322>玩家按下對話按鍵!</color>");
+            playerInput.enabled = true;     //開啟 玩家輸入元件
+            StartCoroutine(FadeGroup(false));
         }
     }
 }
