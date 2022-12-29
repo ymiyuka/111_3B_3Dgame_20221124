@@ -2,6 +2,7 @@
 using TMPro;
 using System.Collections;
 using UnityEngine.InputSystem;
+using UnityEngine.Events;
 
 namespace yo
 {
@@ -24,9 +25,11 @@ namespace yo
         private TextMeshProUGUI textName;
         private TextMeshProUGUI textContent;
         private GameObject goTriangle;
+        private PlayerInput playerInput;    //玩家輸入元件
+        private UnityEvent onDialogueFinsh;
         #endregion
 
-        private PlayerInput playerInput;    //玩家輸入元件
+        
         #region 事件
         private void Awake()
         {
@@ -41,12 +44,18 @@ namespace yo
         }
         #endregion
 
-        public void StartDialogue(DialogueData data)
+        /// <summary>
+        /// 開始對話
+        /// </summary>
+        /// <param name="data">要執行的對話資料</param>
+        /// <param name="_onDialogueFinsh">對話結束號的事件</param>
+        public void StartDialogue(DialogueData data, UnityEvent _onDialogueFinsh = null)
         {
             playerInput.enabled = false;    //關閉 玩家輸入元件
 
             StartCoroutine(FadeGroup());
             StartCoroutine(TypeEffect(data));
+            onDialogueFinsh = _onDialogueFinsh;
         }
 
         /// <summary>
@@ -102,6 +111,7 @@ namespace yo
 
             playerInput.enabled = true;     //開啟 玩家輸入元件
             StartCoroutine(FadeGroup(false));
+            onDialogueFinsh?.Invoke();       // 對話結束事件.呼叫
         }
     }
 }

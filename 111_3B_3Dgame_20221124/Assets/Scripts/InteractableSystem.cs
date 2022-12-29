@@ -8,10 +8,17 @@ namespace yo
     /// </summary>
     public class InteractableSystem : MonoBehaviour
     {
-        [SerializeField, Header("對話資料")]
+        [SerializeField, Header("第一段的對話資料")]
         private DialogueData dataDialogue;
         [SerializeField, Header("結束對話後的事件")]
         private UnityEvent onDialogueFinish;    //Unity 事件
+
+        [SerializeField, Header("啟動道具")]
+        private GameObject propActive;
+        [SerializeField, Header("啟動後的對話資料")]
+        private DialogueData dataDialogueActive;
+        [SerializeField, Header("啟動結束對話後的事件")]
+        private UnityEvent onDialogueFinishAfterActive;
 
         private string nameTarget = "PlayerCapsule";
         private DialogueSystem dialogueSystem;
@@ -28,18 +35,24 @@ namespace yo
         {
             if (other.name.Contains(nameTarget))
             {
-                dialogueSystem.StartDialogue(dataDialogue);
+                // 如果 不需要啟動道具 或者 啟動道具是顯示的 (未獲得) 就執行 第一段對話
+                if (propActive == null || propActive.activeInHierarchy)
+                {
+                    dialogueSystem.StartDialogue(dataDialogue, onDialogueFinish);
+                }
+                else
+                    dialogueSystem.StartDialogue(dataDialogueActive, onDialogueFinishAfterActive);
             }
         }
         //觸發離開
         private void OnTriggerExit(Collider other)
         {
-            
+
         }
         //觸發持續
         private void OnTriggerStay(Collider other)
         {
-            
+
         }
 
         /// <summary>
